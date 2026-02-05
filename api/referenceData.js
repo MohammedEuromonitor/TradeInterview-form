@@ -1,1 +1,61 @@
+import { Client } from "@microsoft/microsoft-graph-client";
+import "isomorphic-fetch";
 
+export default async function (context, req) {
+  try {
+    const type = req.query.type; // country | industry | category
+    const country = req.query.country;
+    const industry = req.query.industry;
+
+    if (!type) {
+      context.res = { status: 400, body: "Missing type parameter" };
+      return;
+    }
+
+    // 🔁 MAP THESE TO SHAREPOINT *INTERNAL* COLUMN NAMES
+    const columnMap = {
+      country: "Title",
+      industry: "field_3",
+      category: "field_2"
+    };
+
+    const filterMap = {
+      industry: country
+        ? `fields/Title eq '${country}'`
+        : null,
+      category: industry
+        ? `fields/field_3 eq '${industry}'`
+        : null
+    };
+
+    const client = Client.initWithMiddleware({
+      authProvider: {
+        getAccessToken: async () => process.env.GRAPH_TOKEN
+      }
+    });
+
+    let request = client
+      .api("/sites/5834ebb4-acd3-4811-8337-e09b1ee566a1/lists/3af1b647-5c3c-40b7-a760-52c2a53b7113/items")
+      .expand("fields");
+
+    if (filterMap[type]) {
+      request = request.filter(filterMap[type]);
+    }
+
+    const response = await request.get();
+
+    const values = response.value
+      .map(item => item.fields[columnMap[type]])
+      .filter(Boolean);
+
+    context.res = {
+      status: 200,
+      body: [...new Set(values)].sort()
+    };
+  } catch (error) {
+    context.res = {
+      status: 500,
+      body: error.message
+    };
+  }
+}

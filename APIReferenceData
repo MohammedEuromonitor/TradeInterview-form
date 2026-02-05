@@ -11,9 +11,9 @@ export default async function (context, req) {
     }
 
     const columnMap = {
-      country: "Country",
-      industry: "Industry",
-      category: "Category"
+      country: "Title",
+      industry: "field_3",
+      category: "field_2"
     };
 
     const columnName = columnMap[type];

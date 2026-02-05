@@ -34,11 +34,7 @@
     <div class="form-group">
       <label for="country">Country (MDR)</label>
       <select id="country" name="country" required>
-        <option value="">Select Country</option>
-        <!-- populated later from SharePoint -->
-        <option>India</option>
-        <option>UK</option>
-        <option>USA</option>
+        <option value="">Loading countries...</option>
       </select>
     </div>
 
@@ -46,10 +42,7 @@
     <div class="form-group">
       <label for="industry">Industry (MDR)</label>
       <select id="industry" name="industry" required>
-        <option value="">Select Industry</option>
-        <option>Retail</option>
-        <option>Consumer Goods</option>
-        <option>Technology</option>
+        <option value="">Loading industries...</option>
       </select>
     </div>
 
@@ -57,10 +50,7 @@
     <div class="form-group">
       <label for="category">Category (MDR)</label>
       <select id="category" name="category" required>
-        <option value="">Select Category</option>
-        <option>Food & Beverage</option>
-        <option>Electronics</option>
-        <option>Personal Care</option>
+        <option value="">Loading categories...</option>
       </select>
     </div>
 
@@ -122,5 +112,25 @@
     </div>
   </div>
 </section>
+
+<script>
+  async function loadCountries() {
+    const response = await fetch("/api/countries");
+    const countries = await response.json();
+
+    const countrySelect = document.getElementById("country");
+    countrySelect.innerHTML = '<option value="">Select Country</option>';
+
+    countries.forEach(country => {
+      const option = document.createElement("option");
+      option.value = country;
+      option.textContent = country;
+      countrySelect.appendChild(option);
+    });
+  }
+
+  loadCountries();
+</script>
+
 
 

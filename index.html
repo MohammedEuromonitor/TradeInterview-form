@@ -90,7 +90,44 @@
 </section>
 
 <script src="form-data.js"></script>
+<script>
+  async function populateDropdown(type, selectId) {
+    try {
+      const response = await fetch(`/api/referenceData?type=${type}`);
 
+      console.log("API status:", response.status);
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`HTTP ${response.status}: ${text}`);
+      }
+
+      const data = await response.json();
+      console.log("API data:", data);
+
+      const select = document.getElementById(selectId);
+      select.innerHTML = `<option value="">Select ${type}</option>`;
+
+      data.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        select.appendChild(option);
+      });
+
+    } catch (error) {
+      console.error("Failed to load dropdown:", error.message);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    populateDropdown("country", "country");
+  });
+</script>
+
+
+
+<!--
 <script>
   async function populateDropdown(selectId, query, placeholder) {
     const select = document.getElementById(selectId);
@@ -151,6 +188,7 @@
     });
   });
 </script>
+-->
 
 
 

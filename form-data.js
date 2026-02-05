@@ -17,9 +17,42 @@ async function populateDropdown(selectId, type, placeholder) {
   }
 }
 
-// Load all dropdowns
 document.addEventListener("DOMContentLoaded", () => {
+  const countrySelect = document.getElementById("country");
+  const industrySelect = document.getElementById("industry");
+  const categorySelect = document.getElementById("category");
+
+  // Initial load
   populateDropdown("country", "country", "Select Country");
-  populateDropdown("industry", "industry", "Select Industry");
-  populateDropdown("category", "category", "Select Category");
+
+  // When Country changes → reload Industries
+  countrySelect.addEventListener("change", () => {
+    const countryValue = countrySelect.value;
+
+    industrySelect.innerHTML = '<option value="">Select Industry</option>';
+    categorySelect.innerHTML = '<option value="">Select Category</option>';
+
+    if (countryValue) {
+      populateDropdown(
+        "industry",
+        `industry&country=${encodeURIComponent(countryValue)}`,
+        "Select Industry"
+      );
+    }
+  });
+
+  // When Industry changes → reload Categories
+  industrySelect.addEventListener("change", () => {
+    const industryValue = industrySelect.value;
+
+    categorySelect.innerHTML = '<option value="">Select Category</option>';
+
+    if (industryValue) {
+      populateDropdown(
+        "category",
+        `category&industry=${encodeURIComponent(industryValue)}`,
+        "Select Category"
+      );
+    }
+  });
 });

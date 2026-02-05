@@ -1,0 +1,42 @@
+import { Client } from "@microsoft/microsoft-graph-client";
+import "isomorphic-fetch";
+
+export default async function (context, req) {
+  try {
+    const type = req.query.type; // country | industry | category
+
+    if (!type) {
+      context.res = { status: 400, body: "Missing type" };
+      return;
+    }
+
+    const columnMap = {
+      country: "Country",
+      industry: "Industry",
+      category: "Category"
+    };
+
+    const columnName = columnMap[type];
+
+    const client = Client.initWithMiddleware({
+      authProvider: {
+        getAccessToken: async () => process.env.GRAPH_TOKEN
+      }
+    });
+
+    const response = await client
+      .api("/sites/5834ebb4-acd3-4811-8337-e09b1ee566a1/lists/3af1b647-5c3c-40b7-a760-52c2a53b7113/items?expand=fields")
+      .get();
+
+    const values = response.value
+      .map(item => item.fields[columnName])
+      .filter(Boolean);
+
+    context.res = {
+      status: 200,
+      body: [...new Set(values)].sort()
+    };
+  } catch (err) {
+    context.res = { status: 500, body: err.message };
+  }
+}

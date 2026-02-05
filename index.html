@@ -92,23 +92,66 @@
 <script src="form-data.js"></script>
 
 <script>
-  async function loadCountries() {
-    const response = await fetch("/api/countries");
-    const countries = await response.json();
+  async function populateDropdown(selectId, query, placeholder) {
+    const select = document.getElementById(selectId);
+    select.innerHTML = `<option value="">${placeholder}</option>`;
 
-    const countrySelect = document.getElementById("country");
-    countrySelect.innerHTML = '<option value="">Select Country</option>';
+    try {
+      const response = await fetch(`/api/referenceData?${query}`);
+      const data = await response.json();
 
-    countries.forEach(country => {
-      const option = document.createElement("option");
-      option.value = country;
-      option.textContent = country;
-      countrySelect.appendChild(option);
-    });
+      data.forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+    } catch (error) {
+      console.error("Failed to load dropdown:", error);
+    }
   }
 
-  loadCountries();
+  document.addEventListener("DOMContentLoaded", () => {
+    const countrySelect = document.getElementById("country");
+    const industrySelect = document.getElementById("industry");
+    const categorySelect = document.getElementById("category");
+
+    // Load Countries
+    populateDropdown("country", "type=country", "Select Country");
+
+    // Country → Industry
+    countrySelect.addEventListener("change", () => {
+      const country = countrySelect.value;
+
+      industrySelect.innerHTML = '<option value="">Select Industry</option>';
+      categorySelect.innerHTML = '<option value="">Select Category</option>';
+
+      if (country) {
+        populateDropdown(
+          "industry",
+          `type=industry&country=${encodeURIComponent(country)}`,
+          "Select Industry"
+        );
+      }
+    });
+
+    // Industry → Category
+    industrySelect.addEventListener("change", () => {
+      const industry = industrySelect.value;
+
+      categorySelect.innerHTML = '<option value="">Select Category</option>';
+
+      if (industry) {
+        populateDropdown(
+          "category",
+          `type=category&industry=${encodeURIComponent(industry)}`,
+          "Select Category"
+        );
+      }
+    });
+  });
 </script>
+
 
 
 

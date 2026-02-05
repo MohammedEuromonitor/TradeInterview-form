@@ -26,35 +26,26 @@
     </p>
   </div>
 </header>
+
 <section class="form-section">
   <h2>Which Research Project(s) is this Interview for?</h2>
 
   <div class="form-grid">
-    <!-- Country -->
     <div class="form-group">
       <label for="country">Country (MDR)</label>
-      <select id="country" name="country" required>
-        <option value="">Loading countries...</option>
-      </select>
+      <select id="country" name="country" required></select>
     </div>
 
-    <!-- Industry -->
     <div class="form-group">
       <label for="industry">Industry (MDR)</label>
-      <select id="industry" name="industry" required>
-        <option value="">Loading industries...</option>
-      </select>
+      <select id="industry" name="industry" required></select>
     </div>
 
-    <!-- Category -->
     <div class="form-group">
       <label for="category">Category (MDR)</label>
-      <select id="category" name="category" required>
-        <option value="">Loading categories...</option>
-      </select>
+      <select id="category" name="category" required></select>
     </div>
 
-    <!-- Project Edition -->
     <div class="form-group">
       <label for="projectEdition">Project Edition</label>
       <input
@@ -62,23 +53,15 @@
         id="projectEdition"
         name="projectEdition"
         pattern="[a-zA-Z0-9]+"
-        placeholder="e.g. 2024Q1"
         required
       />
     </div>
 
-    <!-- Interviewer -->
     <div class="form-group">
       <label for="interviewer">Interviewer</label>
-      <input
-        type="text"
-        id="interviewer"
-        name="interviewer"
-        required
-      />
+      <input type="text" id="interviewer" name="interviewer" required />
     </div>
 
-    <!-- Interviewer Email -->
     <div class="form-group">
       <label for="interviewerEmail">Interviewer Email</label>
       <input
@@ -89,18 +72,11 @@
       />
     </div>
 
-    <!-- Commissioner -->
     <div class="form-group">
       <label for="commissioner">Commissioner</label>
-      <input
-        type="text"
-        id="commissioner"
-        name="commissioner"
-        required
-      />
+      <input type="text" id="commissioner" name="commissioner" required />
     </div>
 
-    <!-- Commissioner Email -->
     <div class="form-group">
       <label for="commissionerEmail">Commissioner Email</label>
       <input
@@ -112,6 +88,8 @@
     </div>
   </div>
 </section>
+
+<script src="form-data.js"></script>
 
 <script>
   async function loadCountries() {

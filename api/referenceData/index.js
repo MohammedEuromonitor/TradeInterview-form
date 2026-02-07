@@ -19,6 +19,8 @@ async function getAccessToken() {
   });
 
   const data = await response.json();
+  console.log("TOKEN RESPONSE:", data);
+
 
   if (!data.access_token) {
     throw new Error("Failed to acquire access token");

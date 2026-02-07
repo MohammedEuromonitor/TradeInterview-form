@@ -166,6 +166,79 @@
   </div>
 </section>
 
+<section class="form-section">
+  <h2>Trade Interview Details</h2>
+
+  <div class="form-grid">
+    <!-- Date of Interview -->
+    <div class="form-group">
+      <label for="interviewDate">
+        Date of Interview <span class="required">*</span>
+      </label>
+      <input
+        type="date"
+        id="interviewDate"
+        name="interviewDate"
+        required
+      />
+    </div>
+
+    <!-- Time Zone -->
+    <div class="form-group">
+      <label for="timeZone">
+        Time Zone <span class="required">*</span>
+      </label>
+      <select id="timeZone" name="timeZone" required>
+        <option value="">Select time zone</option>
+        <option>GMT Standard Time</option>
+        <option>Central Standard Time</option>
+        <option>Singapore Standard Time</option>
+        <option>China Standard Time</option>
+        <option>India Standard Time</option>
+        <option>FLE Standard Time</option>
+        <option>Arabian Standard Time</option>
+        <option>Pacific SA Standard Time</option>
+        <option>South Africa Standard Time</option>
+        <option>AUS Eastern Standard Time</option>
+        <option>Tokyo Standard Time</option>
+        <option>E. South America Standard Time</option>
+        <option>Korea Standard Time</option>
+        <option>Central Standard Time</option>
+      </select>
+    </div>
+
+    <!-- Time of Interview -->
+    <div class="form-group">
+      <label for="interviewTime">
+        Time of Interview <span class="required">*</span>
+      </label>
+      <input
+        type="time"
+        id="interviewTime"
+        name="interviewTime"
+        required
+      />
+    </div>
+
+    <!-- Duration -->
+    <div class="form-group">
+      <label for="interviewDuration">
+        Duration of Interview (minutes) <span class="required">*</span>
+      </label>
+      <input
+        type="number"
+        id="interviewDuration"
+        name="interviewDuration"
+        min="0"
+        max="300"
+        placeholder="e.g. 30, 45, 60"
+        required
+      />
+    </div>
+  </div>
+</section>
+
+
 
 <script src="form-data.js"></script>
 <script>

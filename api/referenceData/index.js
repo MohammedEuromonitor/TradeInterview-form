@@ -1,61 +1,39 @@
 module.exports = async function (context, req) {
-  try {
-    const type = req.query.type;
+  const { type, industry, country } = req.query;
 
-    let data = [];
-
-    switch (type) {
-      case "country":
-        data = [
-          "United Kingdom",
-          "United States",
-          "India",
-          "Germany",
-          "France"
-        ];
-        break;
-
-      case "industry":
-        data = [
-          "Retail",
-          "Consumer Electronics",
-          "Healthcare",
-          "Technology",
-          "Food & Beverage"
-        ];
-        break;
-
-      case "category":
-        data = [
-          "Grocery",
-          "Apparel",
-          "Beauty & Personal Care",
-          "Home Care"
-        ];
-        break;
-
-      default:
-        context.res = {
-          status: 400,
-          body: { error: "Invalid type parameter" }
-        };
-        return;
+  const data = {
+    Retail: {
+      "United Kingdom": ["Grocery", "Apparel"],
+      India: ["Food", "Clothing"]
+    },
+    Technology: {
+      "United States": ["Software", "Hardware"],
+      Germany: ["AI", "Cloud"]
     }
+  };
 
-    context.res = {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: data
-    };
+  let result = [];
 
-  } catch (error) {
-    context.log.error("Error in referenceData API:", error);
-
-    context.res = {
-      status: 500,
-      body: { error: "Internal server error" }
-    };
+  if (type === "industry") {
+    result = Object.keys(data);
   }
+
+  if (type === "country" && industry && data[industry]) {
+    result = Object.keys(data[industry]);
+  }
+
+  if (
+    type === "category" &&
+    industry &&
+    country &&
+    data[industry]?.[country]
+  ) {
+    result = data[industry][country];
+  }
+
+  context.res = {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+    body: result
+  };
 };

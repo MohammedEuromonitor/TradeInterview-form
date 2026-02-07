@@ -91,22 +91,13 @@
 
 <script src="form-data.js"></script>
 <script>
-  async function populateDropdown(type, selectId) {
+  async function populateDropdown(id, query, label) {
     try {
-      const response = await fetch(`/api/referenceData?type=${type}`);
-
-      console.log("API status:", response.status);
-
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`HTTP ${response.status}: ${text}`);
-      }
-
+      const response = await fetch(`/api/referenceData?${query}`);
       const data = await response.json();
-      console.log("API data:", data);
 
-      const select = document.getElementById(selectId);
-      select.innerHTML = `<option value="">Select ${type}</option>`;
+      const select = document.getElementById(id);
+      select.innerHTML = `<option value="">Select ${label}</option>`;
 
       data.forEach(item => {
         const option = document.createElement("option");
@@ -115,81 +106,36 @@
         select.appendChild(option);
       });
 
-    } catch (error) {
-      console.error("Failed to load dropdown:", error.message);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    populateDropdown("country", "country");
-  });
-</script>
-
-
-
-<!--
-<script>
-  async function populateDropdown(selectId, query, placeholder) {
-    const select = document.getElementById(selectId);
-    select.innerHTML = `<option value="">${placeholder}</option>`;
-
-    try {
-      const response = await fetch(`/api/referenceData?${query}`);
-      const data = await response.json();
-
-      data.forEach(value => {
-        const option = document.createElement("option");
-        option.value = value;
-        option.textContent = value;
-        select.appendChild(option);
-      });
+      select.disabled = false;
     } catch (error) {
       console.error("Failed to load dropdown:", error);
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const countrySelect = document.getElementById("country");
-    const industrySelect = document.getElementById("industry");
-    const categorySelect = document.getElementById("category");
+  // Load Industry first
+  populateDropdown("industry", "type=industry", "Industry");
 
-    // Load Countries
-    populateDropdown("country", "type=country", "Select Country");
+  document.getElementById("industry").addEventListener("change", e => {
+    const industry = e.target.value;
 
-    // Country → Industry
-    countrySelect.addEventListener("change", () => {
-      const country = countrySelect.value;
+    document.getElementById("country").disabled = true;
+    document.getElementById("category").disabled = true;
 
-      industrySelect.innerHTML = '<option value="">Select Industry</option>';
-      categorySelect.innerHTML = '<option value="">Select Category</option>';
+    populateDropdown(
+      "country",
+      `type=country&industry=${industry}`,
+      "Country"
+    );
+  });
 
-      if (country) {
-        populateDropdown(
-          "industry",
-          `type=industry&country=${encodeURIComponent(country)}`,
-          "Select Industry"
-        );
-      }
-    });
+  document.getElementById("country").addEventListener("change", e => {
+    const country = e.target.value;
+    const industry = document.getElementById("industry").value;
 
-    // Industry → Category
-    industrySelect.addEventListener("change", () => {
-      const industry = industrySelect.value;
-
-      categorySelect.innerHTML = '<option value="">Select Category</option>';
-
-      if (industry) {
-        populateDropdown(
-          "category",
-          `type=category&industry=${encodeURIComponent(industry)}`,
-          "Select Category"
-        );
-      }
-    });
+    populateDropdown(
+      "category",
+      `type=category&industry=${industry}&country=${country}`,
+      "Category"
+    );
   });
 </script>
--->
-
-
-
-

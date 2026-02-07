@@ -199,11 +199,11 @@
     </div>
   </div>
 </section>
-</form>
 
 <section class="form-section">
   <button type="submit" class="submit-btn">Submit Interview Request</button>
 </section>
+</form>
 
 <!-- =========================
      SCRIPT
@@ -280,6 +280,37 @@ category.addEventListener("change", () => {
     company.appendChild(opt);
   });
 });
+
+  const flowUrl = "https://ecdee7669022e4638910d7fd91e13f.a4.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/78a3c13ebeac48909858f2d676167921/triggers/manual/paths/invoke?api-version=1";
+
+  document
+    .getElementById("tradeInterviewForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const payload = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch(flowUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          alert("Interview request submitted successfully!");
+          this.reset();
+        } else {
+          alert("Submission failed. Please try again.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error submitting form.");
+      }
+    });
 </script>
 
 </body>

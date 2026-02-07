@@ -1,32 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Trade Interview Scheduling Form</title>
   <link rel="stylesheet" href="styles.css" />
-
 </head>
 
+<body>
 
-<!-- Form Header -->
+<!-- =========================
+     Form Header
+========================= -->
 <header class="form-header">
   <div class="header-left">
-    <img
-      src="/EMI%20Logo.jpg"
-      alt="Company Logo"
-      class="logo"
-    />
+    <img src="/EMI%20Logo.jpg" alt="Company Logo" class="logo" />
   </div>
 
   <div class="header-text">
     <h1>Trade Interview Scheduling Form</h1>
     <p>
       Welcome to the Trade Interview Scheduling Form. This form is designed to
-      capture all necessary details for scheduling a trade interview. Please
-      provide accurate information about the interviewee, preferred time slots,
-      and any other necessary information.
+      capture all necessary details for scheduling a trade interview.
     </p>
   </div>
 </header>
 
+<!-- =========================
+     Research Project Section
+========================= -->
 <section class="form-section">
   <h2>Which Research Project(s) is this Interview for?</h2>
 
@@ -38,23 +39,23 @@
 
     <div class="form-group">
       <label for="industry">Industry (MDR)</label>
-      <select id="industry" name="industry" required></select>
+      <select id="industry" name="industry" required>
+        <option value="">Select industry</option>
+        <option value="Retail">Retail</option>
+        <option value="FMCG">FMCG</option>
+      </select>
     </div>
 
     <div class="form-group">
       <label for="category">Category (MDR)</label>
-      <select id="category" name="category" required></select>
+      <select id="category" name="category" required>
+        <option value="">Select category</option>
+      </select>
     </div>
 
     <div class="form-group">
       <label for="projectEdition">Project Edition</label>
-      <input
-        type="text"
-        id="projectEdition"
-        name="projectEdition"
-        pattern="[a-zA-Z0-9]+"
-        required
-      />
+      <input type="text" id="projectEdition" name="projectEdition" required />
     </div>
 
     <div class="form-group">
@@ -64,12 +65,7 @@
 
     <div class="form-group">
       <label for="interviewerEmail">Interviewer Email</label>
-      <input
-        type="email"
-        id="interviewerEmail"
-        name="interviewerEmail"
-        required
-      />
+      <input type="email" id="interviewerEmail" name="interviewerEmail" required />
     </div>
 
     <div class="form-group">
@@ -79,87 +75,68 @@
 
     <div class="form-group">
       <label for="commissionerEmail">Commissioner Email</label>
-      <input
-        type="email"
-        id="commissionerEmail"
-        name="commissionerEmail"
-        required
-      />
+      <input type="email" id="commissionerEmail" name="commissionerEmail" required />
     </div>
   </div>
 </section>
 
+<!-- =========================
+     Interviewee Details
+========================= -->
 <section class="form-section">
   <h2>Interviewee’s Details</h2>
 
   <div class="form-grid">
     <div class="form-group">
-      <label for="firstName">First Name <span class="required">*</span></label>
-      <input type="text" id="firstName" name="firstName" required />
+      <label>First Name *</label>
+      <input type="text" required />
     </div>
 
     <div class="form-group">
-      <label for="surname">Surname <span class="required">*</span></label>
-      <input type="text" id="surname" name="surname" required />
+      <label>Surname *</label>
+      <input type="text" required />
     </div>
 
     <div class="form-group">
-      <label for="email">Email <span class="required">*</span></label>
-      <input type="email" id="email" name="email" required />
+      <label>Email *</label>
+      <input type="email" required />
     </div>
 
     <div class="form-group">
-      <label for="phone">Phone</label>
-      <input type="tel" id="phone" name="phone" />
+      <label>Phone</label>
+      <input type="tel" />
     </div>
 
     <div class="form-group">
-      <label for="jobTitle">Job Title <span class="required">*</span></label>
-      <input type="text" id="jobTitle" name="jobTitle" required />
+      <label>Job Title *</label>
+      <input type="text" required />
     </div>
 
     <div class="form-group">
-      <label for="companyName">Company Name (MDR) <span class="required">*</span></label>
-      <select id="companyName" name="companyName" required>
+      <label>Company Name (MDR) *</label>
+      <select id="companyName" required>
         <option value="">Select company</option>
-        <option>Unilever</option>
-        <option>Procter &amp; Gamble</option>
-        <option>Nestlé</option>
-        <option>PepsiCo</option>
-        <option>Coca-Cola</option>
-        <option>Johnson &amp; Johnson</option>
-        <option>Reckitt</option>
-        <option>L'Oréal</option>
-        <option>Mondelez International</option>
-        <option>Danone</option>
-      </select>
-    </div>
-
-
-    <div class="form-group">
-      <label for="businessFunction">Business Function <span class="required">*</span></label>
-      <input type="text" id="businessFunction" name="businessFunction" required />
-    </div>
-
-    <div class="form-group">
-      <label for="timeInRole">Time Spent in Role (years) <span class="required">*</span></label>
-      <input type="number" id="timeInRole" name="timeInRole" min="0" required />
-    </div>
-
-    <div class="form-group">
-      <label for="intervieweeCountry">Interviewee Country (MDR) <span class="required">*</span></label>
-      <select id="intervieweeCountry" name="intervieweeCountry" required>
-        <option value="">Select country</option>
-        <!-- dummy values for now -->
-        <option>United Kingdom</option>
-        <option>United States</option>
-        <option>India</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label for="interviewType">Type of Interview <span class="required">*</span></label>
-      <select id="interviewType" name="interviewType" required>
+      <label>Business Function *</label>
+      <input type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label>Time Spent in Role (years) *</label>
+      <input type="number" min="0" required />
+    </div>
+
+    <div class="form-group">
+      <label>Interviewee Country (MDR) *</label>
+      <select id="intervieweeCountry" required></select>
+    </div>
+
+    <div class="form-group">
+      <label>Type of Interview *</label>
+      <select required>
         <option value="">Select type</option>
         <option>Full Interview with Old Contact</option>
         <option>Full Interview with New Contact</option>
@@ -173,40 +150,27 @@
     </div>
   </div>
 
-  <div class="form-group full-width">
-    <label for="professionalHistory">Professional History</label>
-    <textarea
-      id="professionalHistory"
-      name="professionalHistory"
-      rows="4"
-      placeholder="Previous employers, LinkedIn link, etc."
-    ></textarea>
+  <div class="form-group">
+    <label>Professional History</label>
+    <textarea rows="4"></textarea>
   </div>
 </section>
 
+<!-- =========================
+     Trade Interview Details
+========================= -->
 <section class="form-section">
   <h2>Trade Interview Details</h2>
 
   <div class="form-grid">
-    <!-- Date of Interview -->
     <div class="form-group">
-      <label for="interviewDate">
-        Date of Interview <span class="required">*</span>
-      </label>
-      <input
-        type="date"
-        id="interviewDate"
-        name="interviewDate"
-        required
-      />
+      <label>Date of Interview *</label>
+      <input type="date" required />
     </div>
 
-    <!-- Time Zone -->
     <div class="form-group">
-      <label for="timeZone">
-        Time Zone <span class="required">*</span>
-      </label>
-      <select id="timeZone" name="timeZone" required>
+      <label>Time Zone *</label>
+      <select required>
         <option value="">Select time zone</option>
         <option>GMT Standard Time</option>
         <option>Central Standard Time</option>
@@ -221,90 +185,97 @@
         <option>Tokyo Standard Time</option>
         <option>E. South America Standard Time</option>
         <option>Korea Standard Time</option>
-        <option>Central Standard Time</option>
       </select>
     </div>
 
-    <!-- Time of Interview -->
     <div class="form-group">
-      <label for="interviewTime">
-        Time of Interview <span class="required">*</span>
-      </label>
-      <input
-        type="time"
-        id="interviewTime"
-        name="interviewTime"
-        required
-      />
+      <label>Time of Interview *</label>
+      <input type="time" required />
     </div>
 
-    <!-- Duration -->
     <div class="form-group">
-      <label for="interviewDuration">
-        Duration of Interview (minutes) <span class="required">*</span>
-      </label>
-      <input
-        type="number"
-        id="interviewDuration"
-        name="interviewDuration"
-        min="0"
-        max="300"
-        placeholder="e.g. 30, 45, 60"
-        required
-      />
+      <label>Duration (minutes) *</label>
+      <input type="number" min="0" max="300" required />
     </div>
   </div>
 </section>
 
-
-
-<script src="form-data.js"></script>
+<!-- =========================
+     SCRIPT
+========================= -->
 <script>
-  async function populateDropdown(id, query, label) {
-    try {
-      const response = await fetch(`/api/referenceData?${query}`);
-      const data = await response.json();
+/* Countries */
+const countries = [
+  "United Kingdom","United States","India","China","Singapore",
+  "Australia","Germany","France","Brazil","South Africa",
+  "Japan","South Korea","UAE","Saudi Arabia"
+];
 
-      const select = document.getElementById(id);
-      select.innerHTML = `<option value="">Select ${label}</option>`;
+function populateCountries(id) {
+  const select = document.getElementById(id);
+  select.innerHTML = '<option value="">Select country</option>';
+  countries.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    select.appendChild(opt);
+  });
+}
 
-      data.forEach(item => {
-        const option = document.createElement("option");
-        option.value = item;
-        option.textContent = item;
-        select.appendChild(option);
-      });
+populateCountries("country");
+populateCountries("intervieweeCountry");
 
-      select.disabled = false;
-    } catch (error) {
-      console.error("Failed to load dropdown:", error);
+/* Industry → Category → Company */
+const data = {
+  Retail: {
+    categories: ["Grocery","Apparel","Electronics"],
+    companies: {
+      Grocery: ["Tesco","Walmart","Sainsbury’s"],
+      Apparel: ["Zara","H&M","Uniqlo"],
+      Electronics: ["Best Buy","Currys","MediaMarkt"]
+    }
+  },
+  FMCG: {
+    categories: ["Food","Beverages","Personal Care"],
+    companies: {
+      Food: ["Nestlé","Danone","Mondelez"],
+      Beverages: ["Coca-Cola","PepsiCo","Red Bull"],
+      "Personal Care": ["Unilever","P&G","Reckitt"]
     }
   }
+};
 
-  // Load Industry first
-  populateDropdown("industry", "type=industry", "Industry");
+const industry = document.getElementById("industry");
+const category = document.getElementById("category");
+const company = document.getElementById("companyName");
 
-  document.getElementById("industry").addEventListener("change", e => {
-    const industry = e.target.value;
+industry.addEventListener("change", () => {
+  category.innerHTML = '<option value="">Select category</option>';
+  company.innerHTML = '<option value="">Select company</option>';
 
-    document.getElementById("country").disabled = true;
-    document.getElementById("category").disabled = true;
+  if (!industry.value) return;
 
-    populateDropdown(
-      "country",
-      `type=country&industry=${industry}`,
-      "Country"
-    );
+  data[industry.value].categories.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    category.appendChild(opt);
   });
+});
 
-  document.getElementById("country").addEventListener("change", e => {
-    const country = e.target.value;
-    const industry = document.getElementById("industry").value;
+category.addEventListener("change", () => {
+  company.innerHTML = '<option value="">Select company</option>';
 
-    populateDropdown(
-      "category",
-      `type=category&industry=${industry}&country=${country}`,
-      "Category"
-    );
+  if (!category.value) return;
+
+  data[industry.value].companies[category.value].forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    company.appendChild(opt);
   });
+});
 </script>
+
+</body>
+</html>

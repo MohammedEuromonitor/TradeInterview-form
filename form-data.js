@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    console.log("Submit intercepted");
+    alert("submit intercepted - no reload");
 
     const formData = new FormData(form);
     const user = await getLoggedInUser();

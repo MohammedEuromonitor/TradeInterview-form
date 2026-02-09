@@ -56,6 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+async function getLoggedInUser() {
+  const res = await fetch("/.auth/me");
+  const data = await res.json();
+  return data.clientPrincipal;
+}
+
 
 document
   .getElementById("tradeInterviewForm")
@@ -63,7 +69,14 @@ document
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    const payload = Object.fromEntries(formData.entries());
+    const user = await getLoggedInUser();
+    const payload = {
+      ...Object.fromEntries(formData.entries()),
+      submittedBy: user?.userDetails,
+      userId: user?.userId,
+      identityProvider: user?.identityProvider
+    };
+
 
     try {
       const response = await fetch("/api/submitInterview", {
@@ -75,9 +88,12 @@ document
       });
 
       if (!response.ok) {
-        alert("Submission failed");
+        const error = await response.text();
+        console.error(error);
+        alert("Submission failed. Please contact support.");
         return;
       }
+
 
       alert("Interview request submitted successfully!");
       e.target.reset();

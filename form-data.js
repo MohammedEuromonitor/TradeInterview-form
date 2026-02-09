@@ -1,3 +1,5 @@
+alert("form-data.js loaded");
+
 async function getLoggedInUser() {
   const res = await fetch("/.auth/me");
   const data = await res.json();

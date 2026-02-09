@@ -70,6 +70,10 @@ document
 
     const formData = new FormData(e.target);
     const user = await getLoggedInUser();
+    if (!user) {
+      alert("You must be signed in to submit this form.");
+      return;
+    }
     const payload = {
       ...Object.fromEntries(formData.entries()),
       submittedBy: user?.userDetails,

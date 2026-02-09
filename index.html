@@ -1,62 +1,286 @@
-const fetch = require("node-fetch");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trade Interview Scheduling Form</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-module.exports = async function (context, req) {
-  try {
-    // Auth header
-    const principal = req.headers["x-ms-client-principal"];
-    if (!principal) {
-      context.res = { status: 401, body: "Not authenticated" };
-      return;
+<body>
+
+<!-- =========================
+     Form Header
+========================= -->
+<header class="form-header">
+  <div class="header-left">
+    <img src="/EMI%20Logo.jpg" alt="Company Logo" class="logo" />
+  </div>
+
+  <div class="header-text">
+    <h1>Trade Interview Scheduling Form</h1>
+    <p>
+      Welcome to the Trade Interview Scheduling Form. This form is designed to
+      capture all necessary details for scheduling a trade interview.
+    </p>
+  </div>
+</header>
+<form id="tradeInterviewForm">
+<!-- =========================
+     Research Project Section
+========================= -->
+<section class="form-section">
+  <h2>Which Research Project(s) is this Interview for?</h2>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="country">Country (MDR)</label>
+      <select id="country" name="country" required></select>
+    </div>
+
+    <div class="form-group">
+      <label for="industry">Industry (MDR)</label>
+      <select id="industry" name="industry" required>
+        <option value="">Select industry</option>
+        <option value="Retail">Retail</option>
+        <option value="FMCG">FMCG</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Category (MDR)</label>
+      <select id="category" name="category" required>
+        <option value="">Select category</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="projectEdition">Project Edition</label>
+      <input type="text" id="projectEdition" name="projectEdition" required />
+    </div>
+
+    <div class="form-group">
+      <label for="interviewer">Interviewer</label>
+      <input type="text" id="interviewer" name="interviewer" required />
+    </div>
+
+    <div class="form-group">
+      <label for="interviewerEmail">Interviewer Email</label>
+      <input type="email" id="interviewerEmail" name="interviewerEmail" required />
+    </div>
+
+    <div class="form-group">
+      <label for="commissioner">Commissioner</label>
+      <input type="text" id="commissioner" name="commissioner" required />
+    </div>
+
+    <div class="form-group">
+      <label for="commissionerEmail">Commissioner Email</label>
+      <input type="email" id="commissionerEmail" name="commissionerEmail" required />
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     Interviewee Details
+========================= -->
+<section class="form-section">
+  <h2>Interviewee’s Details</h2>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label>First Name *</label>
+      <input type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label>Surname *</label>
+      <input type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label>Email *</label>
+      <input type="email" required />
+    </div>
+
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="tel" />
+    </div>
+
+    <div class="form-group">
+      <label>Job Title *</label>
+      <input type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label>Company Name (MDR) *</label>
+      <select id="companyName" required>
+        <option value="">Select company</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Business Function *</label>
+      <input type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label>Time Spent in Role (years) *</label>
+      <input type="number" min="0" required />
+    </div>
+
+    <div class="form-group">
+      <label>Interviewee Country (MDR) *</label>
+      <select id="intervieweeCountry" required></select>
+    </div>
+
+    <div class="form-group">
+      <label>Type of Interview *</label>
+      <select required>
+        <option value="">Select type</option>
+        <option>Full Interview with Old Contact</option>
+        <option>Full Interview with New Contact</option>
+        <option>Relationship Building with Old Contact</option>
+        <option>Relationship Building with New Contact</option>
+        <option>Pulse Interview with Old Contact</option>
+        <option>Pulse Interview with New Contact</option>
+        <option>Trade Fair Interview with Old Contact</option>
+        <option>Trade Fair Interview with New Contact</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Professional History</label>
+    <textarea rows="4"></textarea>
+  </div>
+</section>
+
+<!-- =========================
+     Trade Interview Details
+========================= -->
+<section class="form-section">
+  <h2>Trade Interview Details</h2>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Date of Interview *</label>
+      <input type="date" required />
+    </div>
+
+    <div class="form-group">
+      <label>Time Zone *</label>
+      <select required>
+        <option value="">Select time zone</option>
+        <option>GMT Standard Time</option>
+        <option>Central Standard Time</option>
+        <option>Singapore Standard Time</option>
+        <option>China Standard Time</option>
+        <option>India Standard Time</option>
+        <option>FLE Standard Time</option>
+        <option>Arabian Standard Time</option>
+        <option>Pacific SA Standard Time</option>
+        <option>South Africa Standard Time</option>
+        <option>AUS Eastern Standard Time</option>
+        <option>Tokyo Standard Time</option>
+        <option>E. South America Standard Time</option>
+        <option>Korea Standard Time</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Time of Interview *</label>
+      <input type="time" required />
+    </div>
+
+    <div class="form-group">
+      <label>Duration (minutes) *</label>
+      <input type="number" min="0" max="300" required />
+    </div>
+  </div>
+</section>
+
+<section class="form-section">
+  <button type="submit" class="submit-btn">Submit Interview Request</button>
+</section>
+</form>
+
+<!-- =========================
+     SCRIPT
+========================= -->
+<script>
+/* Countries */
+const countries = [
+  "United Kingdom","United States","India","China","Singapore",
+  "Australia","Germany","France","Brazil","South Africa",
+  "Japan","South Korea","UAE","Saudi Arabia"
+];
+
+function populateCountries(id) {
+  const select = document.getElementById(id);
+  select.innerHTML = '<option value="">Select country</option>';
+  countries.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    select.appendChild(opt);
+  });
+}
+
+populateCountries("country");
+populateCountries("intervieweeCountry");
+
+/* Industry → Category → Company */
+const data = {
+  Retail: {
+    categories: ["Grocery","Apparel","Electronics"],
+    companies: {
+      Grocery: ["Tesco","Walmart","Sainsbury’s"],
+      Apparel: ["Zara","H&M","Uniqlo"],
+      Electronics: ["Best Buy","Currys","MediaMarkt"]
     }
-
-    const user = JSON.parse(
-      Buffer.from(principal, "base64").toString("utf8")
-    );
-
-    // Entra ID check (IMPORTANT: value is 'aad')
-    if (user.identityProvider !== "aad") {
-      context.res = { status: 403, body: "Invalid identity provider" };
-      return;
+  },
+  FMCG: {
+    categories: ["Food","Beverages","Personal Care"],
+    companies: {
+      Food: ["Nestlé","Danone","Mondelez"],
+      Beverages: ["Coca-Cola","PepsiCo","Red Bull"],
+      "Personal Care": ["Unilever","P&G","Reckitt"]
     }
-
-    if (!process.env.FLOW_URL) {
-      throw new Error("FLOW_URL is missing in app settings");
-    }
-
-    // Build payload for flow
-    const payload = {
-      country: req.body.country,
-      industry: req.body.industry,
-      category: req.body.category,
-      comments: req.body.comments,
-      submittedBy: user.userDetails,
-      userId: user.userId,
-      identityProvider: user.identityProvider
-    };
-
-    context.log("Sending payload to flow:", payload);
-
-    const flowResponse = await fetch(process.env.FLOW_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const responseText = await flowResponse.text();
-
-    if (!flowResponse.ok) {
-      throw new Error(`Flow error: ${responseText}`);
-    }
-
-    context.res = {
-      status: 200,
-      body: { success: true }
-    };
-  } catch (err) {
-    context.log.error("SubmitInterview failed:", err);
-    context.res = {
-      status: 500,
-      body: err.message
-    };
   }
 };
+
+const industry = document.getElementById("industry");
+const category = document.getElementById("category");
+const company = document.getElementById("companyName");
+
+industry.addEventListener("change", () => {
+  category.innerHTML = '<option value="">Select category</option>';
+  company.innerHTML = '<option value="">Select company</option>';
+
+  if (!industry.value) return;
+
+  data[industry.value].categories.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    category.appendChild(opt);
+  });
+});
+
+category.addEventListener("change", () => {
+  company.innerHTML = '<option value="">Select company</option>';
+
+  if (!category.value) return;
+
+  data[industry.value].companies[category.value].forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    company.appendChild(opt);
+  });
+});
+</script>
+
+</body>
+</html>

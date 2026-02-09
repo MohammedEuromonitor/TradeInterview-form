@@ -2,7 +2,7 @@ const https = require('https');
 
 module.exports = async function (context, req) {
     // 1. Get your flow URL from Environment Variables (set this in Azure Portal)
-    const flowUrl = process.env["POWER_AUTOMATE_URL"];
+    const flowUrl = "https://ecdee7669022e4638910d7fd91e13f.a4.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/78a3c13ebeac48909858f2d676167921/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=cqgRWESjomk-ax60uYsHjrhP5871D-i2GbsKv0OME2g";
     
     if (!flowUrl) {
         context.res = { status: 500, body: "Power Automate URL is not configured." };

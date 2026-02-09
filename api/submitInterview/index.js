@@ -1,6 +1,5 @@
-module.exports = async function (context, req) {
+export default async function (context, req) {
   try {
-    // Auth header
     const principal = req.headers["x-ms-client-principal"];
     if (!principal) {
       context.res = { status: 401, body: "Not authenticated" };
@@ -11,7 +10,6 @@ module.exports = async function (context, req) {
       Buffer.from(principal, "base64").toString("utf8")
     );
 
-    // Entra ID check (IMPORTANT: value is 'aad')
     if (user.identityProvider !== "aad") {
       context.res = { status: 403, body: "Invalid identity provider" };
       return;
@@ -21,7 +19,6 @@ module.exports = async function (context, req) {
       throw new Error("FLOW_URL is missing in app settings");
     }
 
-    // Build payload for flow
     const payload = {
       country: req.body.country,
       industry: req.body.industry,
@@ -32,8 +29,9 @@ module.exports = async function (context, req) {
       identityProvider: user.identityProvider
     };
 
-    context.log("Sending payload to flow:", payload);
+    context.log("Sending payload:", payload);
 
+    // ❗ No node-fetch — fetch is built-in on Node 18/20
     const flowResponse = await fetch(process.env.FLOW_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -57,4 +55,4 @@ module.exports = async function (context, req) {
       body: err.message
     };
   }
-};
+}

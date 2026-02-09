@@ -1,14 +1,16 @@
+const fetch = require("node-fetch");
+
 module.exports = async function (context, req) {
   try {
-    // 1️⃣ Ensure authenticated user
-    const principalHeader = req.headers["x-ms-client-principal"];
-    if (!principalHeader) {
-      context.res = { status: 401, body: "Unauthorized" };
+    // 1️⃣ Auth check
+    const principal = req.headers["x-ms-client-principal"];
+    if (!principal) {
+      context.res = { status: 401, body: "Not authenticated" };
       return;
     }
 
     const user = JSON.parse(
-      Buffer.from(principalHeader, "base64").toString("utf8")
+      Buffer.from(principal, "base64").toString("utf8")
     );
 
     if (user.identityProvider !== "azureActiveDirectory") {
@@ -16,10 +18,9 @@ module.exports = async function (context, req) {
       return;
     }
 
-    // 2️⃣ Read JSON body (THIS WAS THE BUG)
-    const formData = await req.json();
-    if (!formData) {
-      context.res = { status: 400, body: "No data received" };
+    // 2️⃣ Validate body
+    if (!req.body) {
+      context.res = { status: 400, body: "Missing body" };
       return;
     }
 
@@ -28,18 +29,19 @@ module.exports = async function (context, req) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        country: req.body.country,
+        industry: req.body.industry,
+        category: req.body.category,
+        comments: req.body.comments,
         submittedBy: user.userDetails,
         userId: user.userId,
-        identityProvider: user.identityProvider,
-        data: formData
+        identityProvider: user.identityProvider
       })
     });
 
     if (!flowResponse.ok) {
-      const errorText = await flowResponse.text();
-      context.log.error("Flow failed:", errorText);
-      context.res = { status: 500, body: "Flow invocation failed" };
-      return;
+      const text = await flowResponse.text();
+      throw new Error(`Flow failed: ${text}`);
     }
 
     context.res = {
@@ -47,7 +49,10 @@ module.exports = async function (context, req) {
       body: { success: true }
     };
   } catch (err) {
-    context.log.error("submitInterview error:", err);
-    context.res = { status: 500, body: "Internal Server Error" };
+    context.log.error(err);
+    context.res = {
+      status: 500,
+      body: err.message
+    };
   }
 };

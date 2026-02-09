@@ -1,3 +1,6 @@
+console.log("form-data.js loaded");
+
+
 async function populateDropdown(selectId, type, placeholder) {
   const select = document.getElementById(selectId);
   select.innerHTML = `<option value="">${placeholder}</option>`;

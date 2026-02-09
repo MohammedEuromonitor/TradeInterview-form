@@ -56,3 +56,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+document
+  .getElementById("tradeInterviewForm")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("/api/submitInterview", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        alert("Submission failed");
+        return;
+      }
+
+      alert("Interview request submitted successfully!");
+      e.target.reset();
+    } catch (err) {
+      console.error(err);
+      alert("Error submitting form");
+    }
+  });

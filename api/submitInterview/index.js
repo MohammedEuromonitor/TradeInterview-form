@@ -26,10 +26,7 @@ module.exports = async function (context, req) {
     }
 
     const payload = {
-      country: req.body.country,
-      industry: req.body.industry,
-      category: req.body.category,
-      comments: req.body.comments,
+      ...req.body,
       submittedBy: user.userDetails,
       userId: user.userId,
       identityProvider: user.identityProvider

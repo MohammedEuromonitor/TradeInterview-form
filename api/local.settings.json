@@ -1,0 +1,7 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "POWER_AUTOMATE_URL": "https://ecdee7669022e4638910d7fd91e13f.a4.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2c781ddb3bcc412e82d92572d9ef54ef/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=4v0lQ7hMkR6zQrfj24YIujP6ISxb9vXF10pN8dFqVR0"
+  }
+}

@@ -89,54 +89,54 @@
   <div class="form-grid">
     <div class="form-group">
       <label>First Name *</label>
-      <input type="text" required />
+      <input type="text" name="firstName" required />
     </div>
 
     <div class="form-group">
       <label>Surname *</label>
-      <input type="text" required />
+      <input type="text" name="surname" required />
     </div>
 
     <div class="form-group">
       <label>Email *</label>
-      <input type="email" required />
+      <input type="email" name="email" required />
     </div>
 
     <div class="form-group">
       <label>Phone</label>
-      <input type="tel" />
+      <input type="tel" name"phone" />
     </div>
 
     <div class="form-group">
       <label>Job Title *</label>
-      <input type="text" required />
+      <input type="text" name="jobTitle" required />
     </div>
 
     <div class="form-group">
       <label>Company Name (MDR) *</label>
-      <select id="companyName" required>
+      <select id="companyName" name="companyName" required>
         <option value="">Select company</option>
       </select>
     </div>
 
     <div class="form-group">
       <label>Business Function *</label>
-      <input type="text" required />
+      <input type="text" name="businessFunction" required />
     </div>
 
     <div class="form-group">
       <label>Time Spent in Role (years) *</label>
-      <input type="number" min="0" required />
+      <input type="number" name="timeInRole" min="0" required />
     </div>
 
     <div class="form-group">
       <label>Interviewee Country (MDR) *</label>
-      <select id="intervieweeCountry" required></select>
+      <select id="intervieweeCountry" name="intervieweeCountry" required></select>
     </div>
 
     <div class="form-group">
       <label>Type of Interview *</label>
-      <select required>
+      <select name="interviewType" required>
         <option value="">Select type</option>
         <option>Full Interview with Old Contact</option>
         <option>Full Interview with New Contact</option>
@@ -165,12 +165,12 @@
   <div class="form-grid">
     <div class="form-group">
       <label>Date of Interview *</label>
-      <input type="date" required />
+      <input type="date" name="date" required />
     </div>
 
     <div class="form-group">
       <label>Time Zone *</label>
-      <select required>
+      <select name="timeZone" required>
         <option value="">Select time zone</option>
         <option>GMT Standard Time</option>
         <option>Central Standard Time</option>
@@ -190,12 +190,12 @@
 
     <div class="form-group">
       <label>Time of Interview *</label>
-      <input type="time" required />
+      <input type="time" name="time" required />
     </div>
 
     <div class="form-group">
       <label>Duration (minutes) *</label>
-      <input type="number" min="0" max="300" required />
+      <input type="number" name="duration" min="0" max="300" required />
     </div>
   </div>
 </section>

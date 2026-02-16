@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Trade Interview Scheduling Form</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 </head>
 
 <body>
@@ -206,7 +207,11 @@
      SCRIPT
 ========================= -->
 <script>
-/* Countries */
+
+/* =========================
+   Countries
+========================= */
+
 const countries = [
   "United Kingdom","United States","India","China","Singapore",
   "Australia","Germany","France","Brazil","South Africa",
@@ -227,93 +232,123 @@ function populateCountries(id) {
 populateCountries("country");
 populateCountries("intervieweeCountry");
 
-/* Industry → Category → Company */
+
+/* =========================
+   Industry → Category → Company
+========================= */
+
+let referenceData = [];
+
+let industryChoices;
+let categoryChoices;
 
 const industrySelect = document.getElementById("industry");
 const categorySelect = document.getElementById("category");
 const companySelect = document.getElementById("company");
 
-let referenceData = [];
 
 async function loadReferenceData() {
+
   const response = await fetch("/api/referenceData");
   referenceData = await response.json();
 
-  // Flatten industries (because now they may be arrays)
-  const allIndustries = referenceData.flatMap(r => r.industry);
-  const uniqueIndustries = [...new Set(allIndustries)];
+  // Get unique industries
+  const industries = [...new Set(referenceData.map(r => r.industry))];
 
-  industrySelect.innerHTML = "";
-
-  uniqueIndustries.forEach(i => {
-    const opt = document.createElement("option");
-    opt.value = i;
-    opt.textContent = i;
-    industrySelect.appendChild(opt);
+  // Initialize Industry Choices
+  industryChoices = new Choices(industrySelect, {
+    removeItemButton: true,
+    searchEnabled: true,
+    placeholder: true,
+    placeholderValue: 'Select industry'
   });
+
+  industryChoices.setChoices(
+    industries.map(i => ({ value: i, label: i })),
+    'value',
+    'label',
+    true
+  );
+
+  // Initialize empty Category Choices
+  categoryChoices = new Choices(categorySelect, {
+    removeItemButton: true,
+    searchEnabled: true,
+    placeholder: true,
+    placeholderValue: 'Select category'
+  });
+
 }
+
+
+/* =========================
+   Industry Change
+========================= */
 
 industrySelect.addEventListener("change", () => {
 
-  categorySelect.innerHTML = "";
-  companySelect.innerHTML = "";
+  const selectedIndustries = industryChoices.getValue(true);
 
-  const selectedIndustries = Array.from(
-    industrySelect.selectedOptions
-  ).map(o => o.value);
+  categoryChoices.clearChoices();
+  companySelect.innerHTML = '<option value="">Select company</option>';
 
   if (selectedIndustries.length === 0) return;
 
   const categories = [
     ...new Set(
       referenceData
-        .filter(r =>
-          r.industry.some(ind => selectedIndustries.includes(ind))
-        )
-        .flatMap(r => r.category)
+        .filter(r => selectedIndustries.includes(r.industry))
+        .map(r => r.category)
     )
   ];
 
-  categories.forEach(c => {
-    const opt = document.createElement("option");
-    opt.value = c;
-    opt.textContent = c;
-    categorySelect.appendChild(opt);
-  });
+  categoryChoices.setChoices(
+    categories.map(c => ({ value: c, label: c })),
+    'value',
+    'label',
+    true
+  );
+
 });
+
+
+/* =========================
+   Category Change
+========================= */
 
 categorySelect.addEventListener("change", () => {
 
-  companySelect.innerHTML = "";
+  const selectedIndustries = industryChoices.getValue(true);
+  const selectedCategories = categoryChoices.getValue(true);
 
-  const selectedIndustries = Array.from(
-    industrySelect.selectedOptions
-  ).map(o => o.value);
+  companySelect.innerHTML = '<option value="">Select company</option>';
 
-  const selectedCategories = Array.from(
-    categorySelect.selectedOptions
-  ).map(o => o.value);
-
-  if (selectedCategories.length === 0) return;
+  if (selectedIndustries.length === 0 || selectedCategories.length === 0) return;
 
   const companies = referenceData
     .filter(r =>
-      r.industry.some(ind => selectedIndustries.includes(ind)) &&
-      r.category.some(cat => selectedCategories.includes(cat))
+      selectedIndustries.includes(r.industry) &&
+      selectedCategories.includes(r.category)
     )
     .map(r => r.company);
 
-  companies.forEach(c => {
+  const uniqueCompanies = [...new Set(companies)];
+
+  uniqueCompanies.forEach(c => {
     const opt = document.createElement("option");
     opt.value = c;
     opt.textContent = c;
     companySelect.appendChild(opt);
   });
+
 });
+
 
 loadReferenceData();
 
 </script>
+
 <script src="form-data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </body>
 </html>

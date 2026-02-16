@@ -1,3 +1,5 @@
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 context.log("TENANT_ID:", process.env.TENANT_ID);
 context.log("CLIENT_ID:", process.env.CLIENT_ID);
 context.log("SHAREPOINT_SITE:", process.env.SHAREPOINT_SITE);
@@ -63,7 +65,7 @@ module.exports = async function (context, req) {
     context.log(error);
     context.res = {
       status: 500,
-      body: "Error fetching reference data"
+      body: JSON.stringify(error, null, 2)
     };
   }
 };

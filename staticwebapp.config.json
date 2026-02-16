@@ -1,7 +1,7 @@
 {
   "routes": [
     // 1) Open the test endpoint so you can hit it in a browser without signing in
-    { "route": "/api/testing", "allowedRoles": ["anonymous"] },
+    { "route": "/api/testref", "allowedRoles": ["anonymous"] },
 
     // 2) Protect all other API endpoints (SWA will require login and then pass the request)
     { "route": "/api/*", "allowedRoles": ["authenticated"] },

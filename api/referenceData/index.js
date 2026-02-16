@@ -30,8 +30,7 @@ module.exports = async function (context, req) {
 
     // 2️⃣ Get SharePoint list items
     const listResponse = await fetch(
-      ``https://graph.microsoft.com/v1.0/sites/${SHAREPOINT_SITE_ID}/lists/${SHAREPOINT_LIST_ID}/items?$expand=fields`
-`,
+      `https://graph.microsoft.com/v1.0/sites/${SHAREPOINT_SITE}/lists/${SP_LIST_NAME}/items?$expand=fields`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -43,7 +42,7 @@ module.exports = async function (context, req) {
 
     const formatted = listData.value.map(item => ({
       industry: item.fields.field_3,
-      category: item.fields.filed_2,
+      category: item.fields.field_2,
       company: item.fields.Title
     }));
 

@@ -33,7 +33,7 @@ module.exports = async function (context, req) {
 
     // 2️⃣ Get List Items (only needed fields)
     const listResponse = await fetch(
-      `https://graph.microsoft.com/v1.0/sites/${SHAREPOINT_SITE}/lists/${SP_LIST_NAME}/items?$expand=fields($select=Title,field_1,field_2,field_3,NBO)`,
+      `https://graph.microsoft.com/v1.0/sites/${SHAREPOINT_SITE}/lists/${SP_LIST_NAME}/items?$expand=fields($select=field_1,field_2,field_3,NBO)`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`

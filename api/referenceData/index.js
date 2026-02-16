@@ -1,3 +1,10 @@
+context.log("TENANT_ID:", process.env.TENANT_ID);
+context.log("CLIENT_ID:", process.env.CLIENT_ID);
+context.log("SHAREPOINT_SITE:", process.env.SHAREPOINT_SITE);
+context.log("SP_LIST_NAME:", process.env.SP_LIST_NAME);
+
+
+
 module.exports = async function (context, req) {
 
   try {
@@ -7,7 +14,7 @@ module.exports = async function (context, req) {
       CLIENT_ID,
       CLIENT_SECRET,
       SHAREPOINT_SITE,
-      SHAREPOINT_LIST
+      SP_LIST_NAME
     } = process.env;
 
     // 1️⃣ Get access token

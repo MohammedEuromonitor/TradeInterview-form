@@ -39,16 +39,13 @@
 
     <div class="form-group">
       <label for="industry">Industry (MDR)</label>
-      <select id="industry" name="industry" required>
-        <option value="">Select industry</option>
-        <option value="Retail">Retail</option>
-        <option value="FMCG">FMCG</option>
+      <select id="industry" name="industry" multiple required>
       </select>
     </div>
 
     <div class="form-group">
       <label for="category">Category (MDR)</label>
-      <select id="category" name="category" required>
+      <select id="category" name="category" multiple required>
         <option value="">Select category</option>
       </select>
     </div>
@@ -231,8 +228,14 @@ populateCountries("country");
 populateCountries("intervieweeCountry");
 
 /* Industry → Category → Company */
-const industry = document.getElementById("industry");
-const category = document.getElementById("category");
+const industry = Array.from(
+  document.getElementById("industry").selectedOptions
+).map(option => option.value);
+
+const category = Array.from(
+  document.getElementById("category").selectedOptions
+).map(option => option.value);
+
 const company = document.getElementById("company");
 
 let referenceData = [];

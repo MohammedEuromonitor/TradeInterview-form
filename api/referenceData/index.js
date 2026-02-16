@@ -30,7 +30,7 @@ module.exports = async function (context, req) {
 
     // 2️⃣ Get SharePoint list items
     const listResponse = await fetch(
-      ``https://graph.microsoft.com/v1.0/sites/${SHAREPOINT_SITE_ID}/lists/${SHAREPOINT_LIST_ID}/items?$expand=fields($select=field_3,field_2,Title)`
+      ``https://graph.microsoft.com/v1.0/sites/${SHAREPOINT_SITE_ID}/lists/${SHAREPOINT_LIST_ID}/items?$expand=fields`
 `,
       {
         headers: {

@@ -289,10 +289,14 @@ industrySelect.addEventListener("change", () => {
 
   const selectedIndustries = industryChoices.getValue(true);
 
+  // Reset category safely
+  categoryChoices.clearStore();   // ← more stable than clearChoices()
   categoryChoices.clearChoices();
+  categoryChoices.setChoices([], 'value', 'label', true);
+
   companySelect.innerHTML = '<option value="">Select company</option>';
 
-  if (selectedIndustries.length === 0) return;
+  if (!selectedIndustries.length) return;
 
   const categories = [
     ...new Set(

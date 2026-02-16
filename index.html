@@ -231,36 +231,43 @@ populateCountries("country");
 populateCountries("intervieweeCountry");
 
 /* Industry → Category → Company */
-const data = {
-  Retail: {
-    categories: ["Grocery","Apparel","Electronics"],
-    companies: {
-      Grocery: ["Tesco","Walmart","Sainsbury’s"],
-      Apparel: ["Zara","H&M","Uniqlo"],
-      Electronics: ["Best Buy","Currys","MediaMarkt"]
-    }
-  },
-  FMCG: {
-    categories: ["Food","Beverages","Personal Care"],
-    companies: {
-      Food: ["Nestlé","Danone","Mondelez"],
-      Beverages: ["Coca-Cola","PepsiCo","Red Bull"],
-      "Personal Care": ["Unilever","P&G","Reckitt"]
-    }
-  }
-};
-
 const industry = document.getElementById("industry");
 const category = document.getElementById("category");
 const company = document.getElementById("companyName");
 
+let referenceData = [];
+
+async function loadReferenceData() {
+  const response = await fetch("/api/referenceData");
+  referenceData = await response.json();
+
+  const industries = [...new Set(referenceData.map(r => r.industry))];
+
+  industry.innerHTML = '<option value="">Select industry</option>';
+  industries.forEach(i => {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = i;
+    industry.appendChild(opt);
+  });
+}
+
 industry.addEventListener("change", () => {
+
   category.innerHTML = '<option value="">Select category</option>';
   company.innerHTML = '<option value="">Select company</option>';
 
   if (!industry.value) return;
 
-  data[industry.value].categories.forEach(c => {
+  const categories = [
+    ...new Set(
+      referenceData
+        .filter(r => r.industry === industry.value)
+        .map(r => r.category)
+    )
+  ];
+
+  categories.forEach(c => {
     const opt = document.createElement("option");
     opt.value = c;
     opt.textContent = c;
@@ -269,17 +276,28 @@ industry.addEventListener("change", () => {
 });
 
 category.addEventListener("change", () => {
+
   company.innerHTML = '<option value="">Select company</option>';
 
   if (!category.value) return;
 
-  data[industry.value].companies[category.value].forEach(c => {
+  const companies = referenceData
+    .filter(r =>
+      r.industry === industry.value &&
+      r.category === category.value
+    )
+    .map(r => r.company);
+
+  companies.forEach(c => {
     const opt = document.createElement("option");
     opt.value = c;
     opt.textContent = c;
     company.appendChild(opt);
   });
 });
+
+loadReferenceData();
+
 </script>
 <script src="form-data.js"></script>
 </body>

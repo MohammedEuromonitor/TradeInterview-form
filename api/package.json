@@ -1,0 +1,9 @@
+{
+  "name": "trade-interview-api",
+  "version": "1.0.0",
+  "description": "Azure Functions for Trade Interview Form",
+  "main": "index.js",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

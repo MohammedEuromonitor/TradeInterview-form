@@ -47,11 +47,17 @@ module.exports = async function (context, req) {
       company: item.fields.Title
     }));
 
+    // context.res = {
+    //   status: 200,
+    //   headers: { "Content-Type": "application/json" },
+    //   body: formatted
+    // };
     context.res = {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-      body: formatted
+    status: 200,
+    body: listData.value[0].fields
     };
+    return;
+
 
   } catch (error) {
     context.log(error);

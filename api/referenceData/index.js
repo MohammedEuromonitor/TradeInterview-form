@@ -24,15 +24,16 @@ module.exports = async function (context, req) {
     );
 
     const tokenData = await tokenResponse.json();
-    const accessToken = tokenData.access_token;
 
-    if (!accessToken) {
-      throw new Error("Failed to get access token");
+    if (!tokenResponse.ok) {
+      throw new Error(JSON.stringify(tokenData));
     }
 
-    // 2️⃣ Get list columns (THIS is what we want)
-    const columnsResponse = await fetch(
-      `https://graph.microsoft.com/v1.0/sites/${SHAREPOINT_SITE}/lists/${SP_LIST_NAME}/columns`,
+    const accessToken = tokenData.access_token;
+
+    // 2️⃣ Get SharePoint list items
+    const listResponse = await fetch(
+      `https://graph.microsoft.com/v1.0/sites/${SHAREPOINT_SITE}/lists/${SP_LIST_NAME}/items?$expand=fields($select=Title,field_1,field_2,field_3)`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -40,19 +41,18 @@ module.exports = async function (context, req) {
       }
     );
 
-    const columnsData = await columnsResponse.json();
+    const listData = await listResponse.json();
 
-    if (!columnsResponse.ok) {
-      throw new Error(JSON.stringify(columnsData, null, 2));
+    if (!listResponse.ok) {
+      throw new Error(JSON.stringify(listData));
     }
 
-    // 3️⃣ Return clean list of column names
-    const formatted = columnsData.value.map(col => ({
-      displayName: col.displayName,
-      internalName: col.name,
-      type: Object.keys(col).find(k =>
-        ["text", "choice", "number", "dateTime", "boolean"].includes(k)
-      ) || "other"
+    // 3️⃣ Format data
+    const formatted = listData.value.map(item => ({
+      code: item.fields.field_1,
+      industry: item.fields.field_3,
+      category: item.fields.field_2,
+      company: item.fields.Title
     }));
 
     context.res = {
@@ -62,7 +62,7 @@ module.exports = async function (context, req) {
     };
 
   } catch (error) {
-    context.log("ERROR:", error);
+    context.log("REFERENCE DATA ERROR:", error);
     context.res = {
       status: 500,
       body: error.message

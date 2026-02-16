@@ -52,7 +52,7 @@ module.exports = async function (context, req) {
       code: item.fields.field_1,
       category: item.fields.field_2,
       industry: item.fields.field_3,
-      companyName: item.fields.NBO
+      company: item.fields.NBO
     }));
 
     context.res = {
